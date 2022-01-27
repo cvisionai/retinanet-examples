@@ -275,8 +275,7 @@ class Model(nn.Module):
         else:
             anchors = [generate_anchors_rotated(stride, self.ratios, self.scales, 
                     self.angles)[0].view(-1).tolist() for stride in self.strides]
-        # Set batch_size = 1 batch/GPU for EXPLICIT_BATCH compatibility in TRT
-        batch = 1
+        batch = 2
         return Engine(onnx_bytes.getvalue(), len(onnx_bytes.getvalue()), batch, precision,
                       self.threshold, self.top_n, anchors, self.rotated_bbox, self.nms, self.detections, 
                       calibration_files, model_name, calibration_table, verbose)
